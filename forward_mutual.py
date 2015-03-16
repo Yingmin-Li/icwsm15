@@ -8,32 +8,44 @@ if len(sys.argv) > 3:
     delim = sys.argv[3]
 
 graph = {}
+flags = {}
 for line in open(tagging_filepath):
     entry = line.rstrip().split('\t')
     src = entry[0]
     dst = entry[1]
+    tag = entry[2].lower()
     if not src in graph: graph[src] = {}
-    graph[src][dst] = 0
+    if not dst in graph[src]: graph[src][dst] = set()
+    graph[src][dst].add(tag)
+    if not src in flags: flags[src] = {}
+    flags[src][dst] = 0
 
 for line in open(following_filepath):
     entry = line.rstrip().split('\t')
     src = entry[0]
     dst = entry[1]
-    if src in graph and dst in graph[src]:
-        graph[src][dst] += 1
-    if dst in graph and src in graph[dst]:
-        graph[dst][src] += 2
+    if src in flags and dst in flags[src]:
+        flags[src][dst] += 1
+    if dst in flags and src in flags[dst]:
+        flags[dst][src] += 2
 
-forward = 0
-mutual = 0
-count = 0.0
-for src in graph:
-    for dst in graph[src]:
-        val = graph[src][dst]
-        count += 1
+forward = {}
+mutual = {}
+count = {}
+for src in flags:
+    for dst in flags[src]:
+        val = flags[src][dst]
+        for tag in graph[src][dst]:
+            if not tag in count: count[tag] = 0.0
+            if not tag in forward: forward[tag] = 0
+            if not tag in mutual: mutual[tag] = 0
+            count[tag] += 1
         if val == 1:
-            forward += 1
+            for tag in graph[src][dst]:
+                forward[tag] += 1
         if val == 3:
-            mutual += 1
+            for tag in graph[src][dst]:
+                mutual[tag] += 1
 
-print "%s\t%s" % (forward/count, mutual/count)
+for tag in forward:
+    print "%s\t%s\t%s" % (tag, forward[tag]/count[tag], mutual[tag]/count[tag])
