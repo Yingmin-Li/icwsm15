@@ -1,5 +1,5 @@
 # For Section 3
-for data in flickr delicious twitter_tag_out_going
+for data in flickr delicious twitter.tagging-out-going-from-seed-users.network
 do
   python outdegree_distribution.py ${data} > result.${data}.outdegree
   python indegree_distribution.py ${data} > result.${data}.indegree
@@ -8,8 +8,8 @@ do
 done
 
 # For Section 4
-tagging_data=twitter_tagging
-following_data=twitter_following
+tagging_data=twitter.tagging.network
+following_data=twitter.following.network
 python in_out.py ${tagging_data} > result.in_out
 python rp_at_m.py ${tagging_data} > result.rp_at_m
 python rp_at_t.py ${tagging_data} > result.rp_at_t
