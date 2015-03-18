@@ -47,5 +47,5 @@ for src in flags:
             for tag in graph[src][dst]:
                 mutual[tag] += 1
 
-for tag in forward:
-    print "%s\t%s\t%s" % (tag, forward[tag]/count[tag], mutual[tag]/count[tag])
+for tag,c in sorted(count.items(), key=lambda x:x[1]):
+    print "%s\t%s\t%s\t%s\t%s\t%s" % (tag, count[tag], forward[tag], forward[tag]/count[tag], mutual[tag], mutual[tag]/count[tag])
