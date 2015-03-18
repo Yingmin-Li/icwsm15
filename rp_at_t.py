@@ -32,4 +32,4 @@ for src in graph:
 for tag,n in sorted(nlists.items(), key=lambda x:len(x[1]), reverse=True):
     nedges = edges[tag]
     nreciprocal = reciprocal[tag]
-    print "%s\t%s\t%s\t%s\t%s\t%s" % (tag,len(n),float(nreciprocal)/nedges,(float(nreciprocal)/nedges)/0.0455887970965)
+    print "%s\t%s\t%s\t%s" % (tag,len(n),float(nreciprocal)/nedges,(float(nreciprocal)/nedges)/0.0455887970965)

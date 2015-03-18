@@ -25,7 +25,7 @@ for line in open(following_filepath):
         graph[dst][src] += 2
 
 w_dir = 0
-wo_dit = 0
+wo_dir = 0
 count = 0.0
 for src in graph:
     for dst in graph[src]:
