@@ -32,6 +32,7 @@ for line in open(following_filepath):
 forward = {}
 mutual = {}
 count = {}
+nlists = {}
 for src in flags:
     for dst in flags[src]:
         val = flags[src][dst]
@@ -40,6 +41,8 @@ for src in flags:
             if not tag in forward: forward[tag] = 0
             if not tag in mutual: mutual[tag] = 0
             count[tag] += 1
+            if not tag in nlists: nlists[tag] = set()
+            nlists[tag].add(src)
         if val == 1:
             for tag in graph[src][dst]:
                 forward[tag] += 1
@@ -47,5 +50,5 @@ for src in flags:
             for tag in graph[src][dst]:
                 mutual[tag] += 1
 
-for tag,c in sorted(count.items(), key=lambda x:x[1]):
+for tag,n in sorted(nlists.items(), key=lambda x:len(x[1]), reverse=True):
     print "%s\t%s\t%s\t%s\t%s\t%s" % (tag, count[tag], forward[tag], forward[tag]/count[tag], mutual[tag], mutual[tag]/count[tag])
